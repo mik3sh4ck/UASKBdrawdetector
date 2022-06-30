@@ -8,7 +8,7 @@ def load_dataset():
     lingkaran = []
     segitiga = []
     garis = []
-    orang = []
+    segilima = []
 
     for file in os.listdir("venv/kotak"):
         img = Image.open("venv/kotak/" + file)
@@ -34,20 +34,27 @@ def load_dataset():
         img = img.flatten()
         garis.append(img)
     
+    for file in os.listdir("venv/segilima"):
+        img = Image.open("venv/segilima/" + file)
+        img = np.array(img)
+        img = img.flatten()
+        segilima.append(img)
+    
    
 
-    return kotak, lingkaran, segitiga, garis, 
+    return kotak, lingkaran, segitiga, garis, segilima
 
 def load_ai():
     model = KNeighborsClassifier(n_neighbors=5)
     print("[INFO] Loading Dataset")
-    kotak, lingkaran, segitiga, garis,  = load_dataset()
+    kotak, lingkaran, segitiga, garis, segilima = load_dataset()
     print("[INFO] Loading Model")
     y_kotak = np.zeros(len(kotak))
     y_lingkaran = np.ones(len(lingkaran))
     y_segitiga = np.ones(len(segitiga)) * 2
     y_garis = np.ones(len(garis)) * 3
-    X = kotak + lingkaran + segitiga + garis 
-    y = np.concatenate([y_kotak, y_lingkaran, y_segitiga, y_garis ])
+    y_segilima = np.ones(len(segilima)) * 4
+    X = kotak + lingkaran + segitiga + garis + segilima
+    y = np.concatenate([y_kotak, y_lingkaran, y_segitiga, y_garis, y_segilima])
     model.fit(X, y)
     return model

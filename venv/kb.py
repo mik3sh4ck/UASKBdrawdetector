@@ -39,6 +39,8 @@ def draw_image(event):
         prediction.set("segitiga")
     elif(output[0] == 3):
         prediction.set("garis")
+    elif(output[0] == 4):
+        prediction.set("segilima")
     label.pack()
 
 def start_draw(event):
@@ -57,9 +59,10 @@ kotak = len(os.listdir("venv/kotak"))
 lingkaran = len(os.listdir("venv/lingkaran"))
 segitiga = len(os.listdir("venv/segitiga"))
 garis = len(os.listdir("venv/garis"))
+segilima = len(os.listdir("venv/segilima"))
 
 def save_image(event):
-    global kotak, lingkaran, segitiga, garis
+    global kotak, lingkaran, segitiga, garis, segilima
     img_temp = img.resize((28, 28))
     if(event.char == "k"):
         img_temp.save(f"venv/kotak/{kotak}.png")
@@ -73,6 +76,9 @@ def save_image(event):
     elif(event.char == "g"):
         img_temp.save(f"venv/garis/{garis}.png")
         garis += 1
+    elif(event.char == "q"):
+        img_temp.save(f"venv/segilima/{segilima}.png")
+        segilima += 1
     
 
 window.bind("<B1-Motion>", draw_image)
