@@ -9,6 +9,7 @@ def load_dataset():
     segitiga = []
     garis = []
     segilima = []
+    trapesium = []
 
     for file in os.listdir("venv/kotak"):
         img = Image.open("venv/kotak/" + file)
@@ -40,21 +41,28 @@ def load_dataset():
         img = img.flatten()
         segilima.append(img)
     
+    for file in os.listdir("venv/trapesium"):
+        img = Image.open("venv/trapesium/" + file)
+        img = np.array(img)
+        img = img.flatten()
+        trapesium.append(img)
+    
    
 
-    return kotak, lingkaran, segitiga, garis, segilima
+    return kotak, lingkaran, segitiga, garis, segilima, trapesium
 
 def load_ai():
     model = KNeighborsClassifier(n_neighbors=5)
     print("[INFO] Loading Dataset")
-    kotak, lingkaran, segitiga, garis, segilima = load_dataset()
+    kotak, lingkaran, segitiga, garis, segilima, trapesium = load_dataset()
     print("[INFO] Loading Model")
     y_kotak = np.zeros(len(kotak))
     y_lingkaran = np.ones(len(lingkaran))
     y_segitiga = np.ones(len(segitiga)) * 2
     y_garis = np.ones(len(garis)) * 3
     y_segilima = np.ones(len(segilima)) * 4
-    X = kotak + lingkaran + segitiga + garis + segilima
-    y = np.concatenate([y_kotak, y_lingkaran, y_segitiga, y_garis, y_segilima])
+    y_trapesium = np.ones(len(trapesium)) * 5
+    X = kotak + lingkaran + segitiga + garis + segilima + trapesium
+    y = np.concatenate([y_kotak, y_lingkaran, y_segitiga, y_garis, y_segilima, y_trapesium])
     model.fit(X, y)
     return model
